@@ -12,15 +12,6 @@ import GerenciamentoAlunos from "views/Alunos/gerenciamentoAlunos.js";
 import GerenciamentoEnderecos from "views/Enderecos/gerenciamentoEnderecos.js";
 
 const dashboardRoutes = [
-  /*
-  {
-    path: "/dashboard",
-    name: "Dashboard",
-    rtlName: "لوحة القيادة",
-    icon: Dashboard,
-    component: DashboardPage,
-    layout: "/admin"
-  },*/
   {
     path: "/alunos",
     name: "Gerenciamento de Alunos",
@@ -53,23 +44,6 @@ const dashboardRoutes = [
     component: GerenciamentoEnderecos,
     layout: "/admin"
   }
-  /*
-  {
-    path: "/table",
-    name: "Table List",
-    rtlName: "قائمة الجدول",
-    icon: "content_paste",
-    component: TableList,
-    layout: "/admin"
-  }*/,
-  // {
-  //   path: "/upgrade-to-pro",
-  //   name: "Upgrade To PRO",
-  //   rtlName: "التطور للاحترافية",
-  //   icon: Unarchive,
-  //   component: UpgradeToPro,
-  //   layout: "/admin"
-  // }
 ];
 
 export default dashboardRoutes;

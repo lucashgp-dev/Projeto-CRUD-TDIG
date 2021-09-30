@@ -7,11 +7,12 @@ const GerenciamentoProfessores = props => {
 
   const [columns, setAlunos] = useState([
     { title: 'Id', field: 'id' },
-    { title: 'matricula', field: 'matricula', type: 'numerico' },
-    { title: 'nome', field: 'nome' },
-    { title: 'curso', field: 'curso' },
-    { title: 'endereco', field: 'idEndereco', type: 'numerico' }
-
+    { title: 'rua', field: 'rua', type: 'numerico' },
+    { title: 'numero', field: 'numero' },
+    { title: 'CEP', field: 'cep' },
+    { title: 'cidade', field: 'cidade'},
+    { title: 'estado', field: 'estado'},
+    { title: 'pais', field: 'pais'}
   ]);
 
   const [data, setData] = useState([
@@ -19,11 +20,11 @@ const GerenciamentoProfessores = props => {
 
   useEffect(() => {
     handleClick();
-  }, [data]);
+  }, []);
 
   function handleClick() {
     axios
-      .get("http://demo3147979.mockable.io/get-professores")
+      .get("http://demo9865312.mockable.io/get-enderecos")
       .then(response => {
 
         // create an array of contacts only with relevant data
@@ -31,10 +32,12 @@ const GerenciamentoProfessores = props => {
         const alunos = response.data.lista.map(c => {
           return {
             id: c.id,
-            matricula: c.matricula,
-            nome: c.nome,
-            curso: c.curso,
-            idEndereco: c.idEndereco,
+            rua: c.rua,
+            numero: c.numero,
+            cep: c.cep,
+            cidade: c.cidade,
+            estado: c.estado,
+            pais: c.pais
           };
         });
         setData(alunos);
@@ -44,12 +47,14 @@ const GerenciamentoProfessores = props => {
 
   function handleCreate(newData) {
     axios
-      .post("http://demo3147979.mockable.io/post-professores", {
+      .post("http://demo9865312.mockable.io/post-enderecos", {
         "id": newData.id,
-        "matricula": newData.matricula,
-        "nome": newData.nome,
-        "curso": newData.curso,
-        "idEndereco": newData.idEndereco
+        "rua": newData.rua,
+        "numero": newData.numero,
+        "cep": newData.cep,
+        "cidade": newData.cidade,
+        "estado": newData.estado,
+        "pais": newData.pais
       })
       .then(function (response) {
         console.log('salvo com sucesso')
@@ -58,13 +63,14 @@ const GerenciamentoProfessores = props => {
 
   function handleUpdate(newData) {
     axios
-      .put("http://demo3147979.mockable.io/put-professores", {
+      .put("http://demo9865312.mockable.io/put-enderecos", {
         "id": newData.id,
-        "matricula": newData.matricula,
-        "nome": newData.nome,
-        "curso": newData.curso,
-        "idEndereco": newData.idEndereco
-
+        "rua": newData.rua,
+        "numero": newData.numero,
+        "cep": newData.cep,
+        "cidade": newData.cidade,
+        "estado": newData.estado,
+        "pais": newData.pais
       })
       .then(function (response) {
         console.log('atualizado com sucesso')
@@ -73,7 +79,7 @@ const GerenciamentoProfessores = props => {
 
   function handleDelete(newData) {
     axios
-      .delete("http://demo3147979.mockable.io/delete-professores", {
+      .delete("http://demo9865312.mockable.io/delete-enderecos", {
         "id": newData.id
       })
       .then(function (response) {
@@ -85,7 +91,7 @@ const GerenciamentoProfessores = props => {
     [
       // <Button id = "aew" color="primary" onClick={handleClick}>Consulta</Button>,
       <MaterialTable
-        title="Gerenciamento de Professores"
+        title="Gerenciamento de Endereços"
         columns={columns}
         data={data}
         editable={{
@@ -93,12 +99,8 @@ const GerenciamentoProfessores = props => {
             new Promise((resolve, reject) => {
               setTimeout(() => {
                 handleCreate(newData)
-                // setData([...data, newData]);
                 const dataCreate = [...data];
-                // const index = newData.tableData.id;
-                // dataCreate[index] = newData;
                 setData([...dataCreate, newData]);
-
                 resolve();
               }, 1000)
             }),
@@ -109,7 +111,6 @@ const GerenciamentoProfessores = props => {
                 const index = oldData.tableData.id;
                 dataUpdate[index] = newData;
                 setData([...dataUpdate]);
-
                 resolve();
               }, 1000)
             }),
@@ -121,7 +122,6 @@ const GerenciamentoProfessores = props => {
                 const index = oldData.tableData.id;
                 dataDelete.splice(index, 1);
                 setData([...dataDelete]);
-
                 resolve()
               }, 1000)
             }),

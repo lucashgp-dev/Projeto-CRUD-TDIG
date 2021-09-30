@@ -19,7 +19,7 @@ const GerenciamentoProfessores = props => {
 
   useEffect(() => {
     handleClick();
-  }, [data]);
+  }, []);
 
   function handleClick() {
     axios

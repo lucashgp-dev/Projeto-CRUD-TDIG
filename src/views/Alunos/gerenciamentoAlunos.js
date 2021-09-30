@@ -4,30 +4,65 @@ import MaterialTable from "material-table";
 
 const GerenciamentoAlunos = props => {
     const { useState, useEffect } = React;
-  
-    const [columns, setAlunos] = useState([
-      { title: 'Id', field: 'id' },
-      { title: 'cpf', field: 'cpf', initialEditValue: 'cpf' },
-      { title: 'matricula', field: 'matricula', type: 'numerico' },
-      { title: 'nome', field: 'nome' },
-      { title: 'endereco', field: 'idEndereco', type: 'numerico' },
-      { title: 'curso', field: 'curso' }
-    ]);
-  
+
     const [data, setData] = useState([
     ]);
 
+    const [enderecos, setEnderecos] = useState([
+    ]);
+
+    const dinamicObject = [
+      { id: 1, rua: "Rua um" },
+      { id: 2, rua: "Rua dois" },
+      { id: 3, rua: "Rua tres" },
+      { id: 4, rua: "Rua quatro" },
+      { id: 5, rua: "Rua cinco" },
+    ];
+
+    function getEnderecos() {
+      axios
+        .get("http://demo9865312.mockable.io/get-enderecos")
+        .then(response => {
+          const endereco = response.data.lista.map(c => {
+            return {
+              id: c.id,
+              rua: c.rua,
+            };
+          });
+          setEnderecos(endereco);
+        })
+        .catch(error => console.log(error));
+    }
+
+    const myObject = [
+      {...enderecos}
+    ]
+
+    var obj = dinamicObject.reduce(function(acc, cur, i) {
+      acc[cur.id] = cur.rua;
+  
+      return acc;
+    }, {});
+    console.log(obj);
+
     useEffect(() => {
+      getEnderecos();
       handleClick();
-    }, [data]);
+    }, []);
+
+    const [columns, setAlunos] = useState([
+      { title: 'Id', field: 'id' },
+      { title: 'cpf', field: 'cpf'},
+      { title: 'matricula', field: 'matricula', type: 'numerico' },
+      { title: 'nome', field: 'nome' },
+      { title: 'endereco', field: 'idEndereco', lookup: obj, value: " ", emptyValue: () => <div>-</div> },
+      { title: 'curso', field: 'curso' }
+    ]);
 
     function handleClick() {
       axios
         .get("http://demo3147979.mockable.io/get-alunos")
         .then(response => {
-   
-          // create an array of contacts only with relevant data
-          // console.log(response.data.lista);
           const alunos = response.data.lista.map(c => {
             return {
               id: c.id,
@@ -85,7 +120,7 @@ const GerenciamentoAlunos = props => {
   
     return (
       [
-      // <Button id = "aew" color="primary" onClick={handleClick}>Consulta</Button>,
+      // <button id = "aew" color="primary" onClick={handleClick}>Consulta</button>,
       <MaterialTable
         title="Gerenciamento de Alunos"
         columns={columns}
