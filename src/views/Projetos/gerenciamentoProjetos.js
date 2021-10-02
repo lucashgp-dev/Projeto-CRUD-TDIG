@@ -5,6 +5,37 @@ import MaterialTable from "material-table";
 const GerenciamentoProfessores = props => {
   const { useState, useEffect } = React;
 
+  const dinamicObject1 = [
+    { id: 1, idProfessorResponsavel: "Demetrio Mestre" },
+    { id: 2, idProfessorResponsavel: "Suelio Matias" },
+    { id: 3, idProfessorResponsavel: "Ana Paula" }
+
+  ];
+  
+  const dinamicObject2 = [
+    { id: 1, idAlunoParticipante: "RODRIGO BRITO DO NASCIMENTO" },
+    { id: 2, idAlunoParticipante: "RAFAELA ALBANIZA OLIVEIRA SANTOS" },
+    { id: 3, idAlunoParticipante: "LUANDERLANDY FELLIPE DA SILVA" },
+    { id: 4,  idAlunoParticipante: "THIAGO LOPES MOREIRA" },
+    { id: 5,  idAlunoParticipante: "AGHATA SOPHIA DE ARAUJO TRUTA" },
+    { id: 6,  idAlunoParticipante: "Elioenai Roberto" }
+
+  ];
+
+  var obj1 = dinamicObject1.reduce(function(acc, cur, i) {
+    acc[cur.id] = cur.idProfessorResponsavel;
+
+    return acc;
+  }, {});
+  console.log(obj1);
+
+  var obj2 = dinamicObject2.reduce(function(acc, cur, i) {
+    acc[cur.id] = cur.idAlunoParticipante;
+
+    return acc;
+  }, {});
+  console.log(obj2);
+
   const [columns, setAlunos] = useState([
     { title: 'Id', field: 'id' },
     { title: 'Titulo Projeto', field: 'tituloProjeto' },
@@ -14,12 +45,13 @@ const GerenciamentoProfessores = props => {
     { title: 'Palavra Chave 2', field: 'palavraChave2' },
     { title: 'Palavra Chave 3', field: 'palavraChave3' },
     { title: 'Site', field: 'url' },
-    { title: 'Id Professor Responsavel', field: 'idProfessorResponsavel' },
-    { title: 'Id Aluno Participante', field: 'idAlunoParticipante' }
+    { title: 'Id Professor Responsavel', field: 'idProfessorResponsavel', lookup:obj1},
+    { title: 'Id Aluno Participante', field: 'idAlunoParticipante',lookup:obj2 }
   ]);
 
   const [data, setData] = useState([
   ]);
+
 
   useEffect(() => {
     handleClick();
