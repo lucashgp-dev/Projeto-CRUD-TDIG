@@ -12,11 +12,12 @@ const GerenciamentoAlunos = props => {
     ]);
 
     const dinamicObject = [
-      { id: 1, rua: "Rua um" },
-      { id: 2, rua: "Rua dois" },
-      { id: 3, rua: "Rua tres" },
-      { id: 4, rua: "Rua quatro" },
-      { id: 5, rua: "Rua cinco" },
+      { id: 1, rua: "Rua Severino Verônica" },
+      { id: 2, rua: "Rua Aprígio Veloso" },
+      { id: 3, rua: "Rua Almirante Barroso" },
+      { id: 4, rua: "Rua Doutor Vasconcelos" },
+      { id: 5, rua: "Rua Baraúnas" },
+      { id: 6, rua: "Rua Ana Vilar" }
     ];
 
     function getEnderecos() {
