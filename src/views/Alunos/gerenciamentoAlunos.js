@@ -34,10 +34,6 @@ const GerenciamentoAlunos = props => {
         .catch(error => console.log(error));
     }
 
-    const myObject = [
-      {...enderecos}
-    ]
-
     var obj = dinamicObject.reduce(function(acc, cur, i) {
       acc[cur.id] = cur.rua;
   
