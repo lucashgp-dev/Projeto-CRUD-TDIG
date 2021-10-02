@@ -6,10 +6,12 @@ const GerenciamentoProfessores = props => {
   const { useState, useEffect } = React;
 
   const dinamicObject = [
-
-    { id: 1, rua: "Rua Almirante Barroso" },
-    { id: 2, rua: "Rua Severino Verônica" },
-    { id: 3, rua: "Rua Aprígio Veloso" }
+    { id: 1, rua: "Rua Severino Verônica" },
+    { id: 2, rua: "Rua Aprígio Veloso" },
+    { id: 3, rua: "Rua Almirante Barroso" },
+    { id: 4, rua: "Rua Doutor Vasconcelos" },
+    { id: 5, rua: "Rua Baraúnas" },
+    { id: 6, rua: "Rua Ana Vilar" }
   ];
 
   var obj = dinamicObject.reduce(function(acc, cur, i) {
