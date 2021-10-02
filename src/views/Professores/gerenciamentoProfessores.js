@@ -5,12 +5,26 @@ import MaterialTable from "material-table";
 const GerenciamentoProfessores = props => {
   const { useState, useEffect } = React;
 
+  const dinamicObject = [
+
+    { id: 1, rua: "Rua Almirante Barroso" },
+    { id: 2, rua: "Rua Severino Verônica" },
+    { id: 3, rua: "Rua Aprígio Veloso" }
+  ];
+
+  var obj = dinamicObject.reduce(function(acc, cur, i) {
+    acc[cur.id] = cur.rua;
+
+    return acc;
+  }, {});
+
+  console.log(obj);
   const [columns, setAlunos] = useState([
     { title: 'Id', field: 'id' },
     { title: 'matricula', field: 'matricula', type: 'numerico' },
     { title: 'nome', field: 'nome' },
     { title: 'curso', field: 'curso' },
-    { title: 'endereco', field: 'idEndereco', type: 'numerico' }
+    { title: 'endereco', field: 'idEndereco', type: 'numerico', lookup:obj }
 
   ]);
 
