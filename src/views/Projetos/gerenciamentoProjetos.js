@@ -5,57 +5,64 @@ import MaterialTable from "material-table";
 const GerenciamentoProfessores = props => {
   const { useState, useEffect } = React;
 
-  const dinamicObject1 = [
-    { id: 1, idProfessorResponsavel: "Demetrio Mestre" },
-    { id: 2, idProfessorResponsavel: "Suelio Matias" },
-    { id: 3, idProfessorResponsavel: "Ana Paula" }
+  const [data, setData] = useState([]);
 
-  ];
-  
-  const dinamicObject2 = [
-    { id: 1, idAlunoParticipante: "RODRIGO BRITO DO NASCIMENTO" },
-    { id: 2, idAlunoParticipante: "RAFAELA ALBANIZA OLIVEIRA SANTOS" },
-    { id: 3, idAlunoParticipante: "LUANDERLANDY FELLIPE DA SILVA" },
-    { id: 4,  idAlunoParticipante: "THIAGO LOPES MOREIRA" },
-    { id: 5,  idAlunoParticipante: "AGHATA SOPHIA DE ARAUJO TRUTA" },
-    { id: 6,  idAlunoParticipante: "Elioenai Roberto" }
+  const [alunos, setAlunos] = useState([]);
 
-  ];
+  const [professores, setProfessores] = useState([]);
 
-  var obj1 = dinamicObject1.reduce(function(acc, cur, i) {
-    acc[cur.id] = cur.idProfessorResponsavel;
+  useEffect(() => {
+    getProfessores();
+    getAlunos();
+    handleClick();
+  }, []);
+
+  var obj1 = professores.reduce(function(acc, cur, i) {
+    acc[cur.id] = cur.nome;
 
     return acc;
   }, {});
   console.log(obj1);
 
-  var obj2 = dinamicObject2.reduce(function(acc, cur, i) {
-    acc[cur.id] = cur.idAlunoParticipante;
+  var obj2 = alunos.reduce(function(acc, cur, i) {
+    acc[cur.id] = cur.nome;
 
     return acc;
   }, {});
   console.log(obj2);
 
-  const [columns, setAlunos] = useState([
-    { title: 'Id', field: 'id' },
-    { title: 'Titulo Projeto', field: 'tituloProjeto' },
-    { title: 'Area Projeto', field: 'areaProjeto' },
-    { title: 'Resumo', field: 'resumo' },
-    { title: 'Palavra Chave 1', field: 'palavraChave1' },
-    { title: 'Palavra Chave 2', field: 'palavraChave2' },
-    { title: 'Palavra Chave 3', field: 'palavraChave3' },
-    { title: 'Site', field: 'url' },
-    { title: 'Id Professor Responsavel', field: 'idProfessorResponsavel', lookup:obj1},
-    { title: 'Id Aluno Participante', field: 'idAlunoParticipante',lookup:obj2 }
-  ]);
-
-  const [data, setData] = useState([
-  ]);
+  
 
 
-  useEffect(() => {
-    handleClick();
-  }, []);
+  function getProfessores() {
+    axios
+      .get("http://demo3147979.mockable.io/get-professores")
+      .then(response => {
+        const professor = response.data.lista.map(c => {
+          return {
+            id: c.id,
+            nome: c.nome,
+          };
+        });
+        setProfessores(professor);
+      })
+      .catch(error => console.log(error));
+  }
+
+  function getAlunos() {
+    axios
+      .get("http://demo3147979.mockable.io/get-alunos")
+      .then(response => {
+        const aluno = response.data.lista.map(c => {
+          return {
+            id: c.id,
+            nome: c.nome,
+          };
+        });
+        setAlunos(aluno);
+      })
+      .catch(error => console.log(error));
+  }
 
   function handleClick() {
     axios
@@ -142,7 +149,18 @@ const GerenciamentoProfessores = props => {
       // <Button id = "aew" color="primary" onClick={handleClick}>Consulta</Button>,
       <MaterialTable
         title="Gerenciamento de Projetos"
-        columns={columns}
+        columns={[
+          { title: 'Id', field: 'id' },
+          { title: 'Titulo Projeto', field: 'tituloProjeto' },
+          { title: 'Area Projeto', field: 'areaProjeto' },
+          { title: 'Resumo', field: 'resumo' },
+          { title: 'Palavra Chave 1', field: 'palavraChave1' },
+          { title: 'Palavra Chave 2', field: 'palavraChave2' },
+          { title: 'Palavra Chave 3', field: 'palavraChave3' },
+          { title: 'Site', field: 'url' },
+          { title: 'Professor Responsavel', field: 'idProfessorResponsavel', lookup:obj1},
+          { title: 'Aluno Participante', field: 'idAlunoParticipante',lookup:obj2 }
+        ]}
         data={data}
         editable={{
           onRowAdd: newData =>

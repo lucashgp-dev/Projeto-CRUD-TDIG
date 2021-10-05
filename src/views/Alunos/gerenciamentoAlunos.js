@@ -11,14 +11,16 @@ const GerenciamentoAlunos = props => {
     const [enderecos, setEnderecos] = useState([
     ]);
 
-    const dinamicObject = [
-      { id: 1, rua: "Rua Severino Verônica" },
-      { id: 2, rua: "Rua Aprígio Veloso" },
-      { id: 3, rua: "Rua Almirante Barroso" },
-      { id: 4, rua: "Rua Doutor Vasconcelos" },
-      { id: 5, rua: "Rua Baraúnas" },
-      { id: 6, rua: "Rua Ana Vilar" }
-    ];
+    useEffect(() => {
+      getEnderecos();
+      handleClick();
+    }, []);
+
+    var obj = enderecos.reduce(function(acc, cur, i) {
+      acc[cur.id] = cur.rua;
+  
+      return acc;
+    }, {});
 
     function getEnderecos() {
       axios
@@ -34,27 +36,6 @@ const GerenciamentoAlunos = props => {
         })
         .catch(error => console.log(error));
     }
-
-    var obj = dinamicObject.reduce(function(acc, cur, i) {
-      acc[cur.id] = cur.rua;
-  
-      return acc;
-    }, {});
-    console.log(obj);
-
-    useEffect(() => {
-      getEnderecos();
-      handleClick();
-    }, []);
-
-    const [columns, setAlunos] = useState([
-      { title: 'Id', field: 'id' },
-      { title: 'cpf', field: 'cpf'},
-      { title: 'matricula', field: 'matricula', type: 'numerico' },
-      { title: 'nome', field: 'nome' },
-      { title: 'endereco', field: 'idEndereco', lookup: obj, value: " ", emptyValue: () => <div>-</div> },
-      { title: 'curso', field: 'curso' }
-    ]);
 
     function handleClick() {
       axios
@@ -120,7 +101,14 @@ const GerenciamentoAlunos = props => {
       // <button id = "aew" color="primary" onClick={handleClick}>Consulta</button>,
       <MaterialTable
         title="Gerenciamento de Alunos"
-        columns={columns}
+        columns={[
+          { title: 'Id', field: 'id' },
+          { title: 'cpf', field: 'cpf'},
+          { title: 'matricula', field: 'matricula', type: 'numerico' },
+          { title: 'nome', field: 'nome' },
+          { title: 'endereco', field: 'idEndereco', lookup: obj, value: " ", emptyValue: () => <div>-</div> },
+          { title: 'curso', field: 'curso' }
+        ]}
         data={data}
         editable={{
           onRowAdd: newData =>

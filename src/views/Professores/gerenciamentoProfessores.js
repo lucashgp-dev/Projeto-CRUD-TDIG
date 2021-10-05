@@ -5,37 +5,37 @@ import MaterialTable from "material-table";
 const GerenciamentoProfessores = props => {
   const { useState, useEffect } = React;
 
-  const dinamicObject = [
-    { idEndereco: 1, rua: "Rua Severino Verônica" },
-    { idEndereco: 2, rua: "Rua Aprígio Veloso" },
-    { idEndereco: 3, rua: "Rua Almirante Barroso" },
-    { idEndereco: 4, rua: "Rua Doutor Vasconcelos" },
-    { idEndereco: 5, rua: "Rua Baraúnas" },
-    { idEndereco: 6, rua: "Rua Ana Vilar" }
-  ];
+  const [data, setData] = useState([
+  ]);
 
-  var obj = dinamicObject.reduce(function(acc, cur, i) {
-    acc[cur.idEndereco] = cur.rua;
+  const [enderecos, setEnderecos] = useState([
+  ]);
+
+  useEffect(() => {
+    getEnderecos();
+    handleClick();
+  }, []);
+
+  var obj = enderecos.reduce(function(acc, cur, i) {
+    acc[cur.id] = cur.rua;
 
     return acc;
   }, {});
 
-  console.log(obj);
-  const [columns, setAlunos] = useState([
-    { title: 'Id', field: 'id' },
-    { title: 'matricula', field: 'matricula', type: 'numeric' },
-    { title: 'nome', field: 'nome' },
-    { title: 'curso', field: 'curso' },
-    { title: 'endereco', field: 'idEndereco', lookup:obj }
-
-  ]);
-
-  const [data, setData] = useState([
-  ]);
-
-  useEffect(() => {
-    handleClick();
-  }, []);
+  function getEnderecos() {
+    axios
+      .get("http://demo9865312.mockable.io/get-enderecos")
+      .then(response => {
+        const endereco = response.data.lista.map(c => {
+          return {
+            id: c.id,
+            rua: c.rua,
+          };
+        });
+        setEnderecos(endereco);
+      })
+      .catch(error => console.log(error));
+  }
 
   function handleClick() {
     axios
@@ -102,7 +102,13 @@ const GerenciamentoProfessores = props => {
       // <Button id = "aew" color="primary" onClick={handleClick}>Consulta</Button>,
       <MaterialTable
         title="Gerenciamento de Professores"
-        columns={columns}
+        columns={[
+          { title: 'Id', field: 'id' },
+          { title: 'matricula', field: 'matricula', type: 'numeric' },
+          { title: 'nome', field: 'nome' },
+          { title: 'curso', field: 'curso' },
+          { title: 'endereco', field: 'idEndereco', lookup:obj }
+        ]}
         data={data}
         editable={{
           onRowAdd: newData =>
